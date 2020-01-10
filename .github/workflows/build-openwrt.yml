@@ -8,14 +8,7 @@
 
 name: Build OpenWrt
 
-on: 
-  release:
-    types: [published]
-  push:
-    branches: 
-      - master
-    paths:
-      - '.config'
+on: [push]
 #  schedule:
 #    - cron: 0 8 * * 5
 #  watch:
@@ -23,7 +16,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout
