@@ -28,9 +28,6 @@ jobs:
         REPO_BRANCH: master
       run: git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
 
-    - name: Apply packages patch
-      run: cd openwrt && git apply ../00_custom_package.patch
-
     - name: Initialization environment
       env:
         DEBIAN_FRONTEND: noninteractive
@@ -53,6 +50,9 @@ jobs:
 
     - name: Install feeds
       run: cd openwrt && ./scripts/feeds install -a
+
+    - name: Apply packages patch
+      run: cd openwrt && git apply ../00_custom_package.patch
 
     - name: Load custom configuration
       env:
