@@ -53,10 +53,10 @@ index 0000000..76d42a7
 +$(eval $(call BuildPackage,ipt2socks))
 diff --git a/package/custom_packages/luci-app-ssr-plus/Makefile b/package/custom_packages/luci-app-ssr-plus/Makefile
 new file mode 100644
-index 0000000..46d7550
+index 0000000..bd5f241
 --- /dev/null
 +++ b/package/custom_packages/luci-app-ssr-plus/Makefile
-@@ -0,0 +1,98 @@
+@@ -0,0 +1,127 @@
 +include $(TOPDIR)/rules.mk
 +
 +PKG_NAME:=luci-app-ssr-plus
@@ -111,6 +111,7 @@ index 0000000..46d7550
 +            +PACKAGE_$(PKG_NAME)_INCLUDE_Trojan:ipt2socks \
 +            +PACKAGE_$(PKG_NAME)_INCLUDE_Kcptun:kcptun-client \
 +            +PACKAGE_$(PKG_NAME)_INCLUDE_ShadowsocksR_Server:shadowsocksr-libev-server \
++            +PACKAGE_$(PKG_NAME)_INCLUDE_ShadowsocksR_Server:luci-lib-ipkg \
 +            +PACKAGE_$(PKG_NAME)_INCLUDE_ShadowsocksR_Socks:shadowsocksr-libev-ssr-local
 +endef
 +
@@ -128,10 +129,38 @@ index 0000000..46d7550
 +define Package/luci-app-ssr-plus/install
 +	$(INSTALL_DIR) $(1)/usr/lib/lua/luci
 +	cp -pR ./luasrc/* $(1)/usr/lib/lua/luci
-+	$(INSTALL_DIR) $(1)/
-+	cp -pR ./root/* $(1)/
++	
 +	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/i18n
++	
 +	po2lmo ./po/zh-cn/ssr-plus.po $(1)/usr/lib/lua/luci/i18n/ssr-plus.zh-cn.lmo
++	
++	$(INSTALL_DIR) $(1)/etc
++	$(INSTALL_DATA) ./root/etc/china_ssr.txt $(1)/etc/china_ssr.txt
++	$(INSTALL_DIR) $(1)/etc/init.d
++	$(INSTALL_BIN) ./root/etc/init.d/shadowsocksr $(1)/etc/init.d/shadowsocksr
++	$(INSTALL_DIR) $(1)/etc/uci-defaults
++	$(INSTALL_BIN) ./root/etc/uci-defaults/luci-ssr-plus $(1)/etc/uci-defaults/luci-ssr-plus
++	$(INSTALL_DIR) $(1)/etc/config
++	cp -pR ./root/etc/config/* $(1)/etc/config/
++	$(INSTALL_DIR) $(1)/etc/dnsmasq.oversea
++	cp -pR ./root/etc/dnsmasq.oversea/* $(1)/etc/dnsmasq.oversea/
++	$(INSTALL_DIR) $(1)/etc/dnsmasq.ssr
++	cp -pR ./root/etc/dnsmasq.ssr/* $(1)/etc/dnsmasq.ssr/
++	
++	$(INSTALL_DIR) $(1)/usr/bin
++	$(INSTALL_BIN) ./root/usr/bin/ssr-ad $(1)/usr/bin/ssr-ad
++	$(INSTALL_BIN) ./root/usr/bin/ssr-gfw $(1)/usr/bin/ssr-gfw
++	$(INSTALL_BIN) ./root/usr/bin/ssr-monitor $(1)/usr/bin/ssr-monitor
++	$(INSTALL_BIN) ./root/usr/bin/ssr-rules $(1)/usr/bin/ssr-rules
++	$(INSTALL_BIN) ./root/usr/bin/ssr-switch $(1)/usr/bin/ssr-switch
++	$(INSTALL_DIR) $(1)/usr/share/shadowsocksr
++	$(INSTALL_BIN) ./root/usr/share/shadowsocksr/chinaipset.sh $(1)/usr/share/shadowsocksr/chinaipset.sh
++	$(INSTALL_DATA) ./root/usr/share/shadowsocksr/gentrojanconfig.lua $(1)/usr/share/shadowsocksr/gentrojanconfig.lua
++	$(INSTALL_DATA) ./root/usr/share/shadowsocksr/genv2config.lua $(1)/usr/share/shadowsocksr/genv2config.lua
++	$(INSTALL_BIN) ./root/usr/share/shadowsocksr/gfw2ipset.sh $(1)/usr/share/shadowsocksr/gfw2ipset.sh
++	$(INSTALL_BIN) ./root/usr/share/shadowsocksr/subscribe.sh $(1)/usr/share/shadowsocksr/subscribe.sh
++	$(INSTALL_BIN) ./root/usr/share/shadowsocksr/update.sh $(1)/usr/share/shadowsocksr/update.sh
++
 +endef
 +
 +define Package/luci-app-ssr-plus/postinst
