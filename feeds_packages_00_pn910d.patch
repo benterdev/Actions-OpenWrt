@@ -1,0 +1,15 @@
+diff --git a/net/p910nd/files/p910nd.config b/net/p910nd/files/p910nd.config
+old mode 100644
+new mode 100755
+index 5446192c7..3cb59ec15
+--- a/net/p910nd/files/p910nd.config
++++ b/net/p910nd/files/p910nd.config
+@@ -4,7 +4,7 @@ config p910nd
+ 	# Valid values are 0,1,2
+ 	option port          0
+ 	option bidirectional 1
+-	option enabled       0
++	option enabled       1
+ 	# Override running as user p910nd, group lp
+ 	option runas_root    0
+ 

@@ -52,7 +52,8 @@ jobs:
       run: cd openwrt && ./scripts/feeds install -a
 
     - name: Apply packages patch
-      run: cd openwrt && git apply ../00_custom_package.patch
+      run: cd openwrt && git apply ../00_custom_package.patch;
+        cd feeds/packages && git apply ../../../feeds_packages_00_pn910d.patch
 
     - name: Load custom configuration
       env:
